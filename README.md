@@ -1,12 +1,12 @@
-# CLEAR2D
+# CLEAR
 Small 2D single-threaded bloat-free game library without ANY external dependencies; pure Java "based" on Swing (well, we just need a JFrame, JPanel and BufferedImage).
-Check how (quick is to setup a C2D frame)[../blob/master/Clear2D/src/test/java/cz/cuni/amis/clear2d/tests/Test04_C2DFrame.java]. Using (Maven)[https://maven.apache.org/].
+Check how [quick is to setup a C2D frame](../blob/master/Clear2D/src/test/java/cz/cuni/amis/clear2d/tests/Test04_C2DFrame.java]. Using (Maven)[https://maven.apache.org/).
 
 ## FEATURES
 
 Minimalistic set of framework functionalities:
-* hierarchical scene tree ~ (Scene)[..blob/master/Clear2D/src/main/java/cz/cuni/amis/clear2d/engine/Scene.java]
-* component-based scene element ~ (SceneElement)[../blob/master/Clear2D/src/main/java/cz/cuni/amis/clear2d/engine/SceneElement.java], (Component)[../blob/master/Clear2D/src/main/java/cz/cuni/amis/clear2d/engine/Component.java]
+* hierarchical scene tree ~ [Scene](..blob/master/Clear2D/src/main/java/cz/cuni/amis/clear2d/engine/Scene.java)
+* component-based scene element ~ [SceneElement](../blob/master/Clear2D/src/main/java/cz/cuni/amis/clear2d/engine/SceneElement.java), [Component](../blob/master/Clear2D/src/main/java/cz/cuni/amis/clear2d/engine/Component.java)
 ··* scene element enabled/ticking/visible can be controlled - affects the whole sub-tree
 ··* scene elements can be extended ~ (Sprite)[../blob/master/Clear2D/src/main/java/cz/cuni/amis/clear2d/engine/prefabs/Sprite.java], (Entity)[../blob/master/Clear2D/src/main/java/cz/cuni/amis/clear2d/engine/prefabs/Entity.java]
 ··* event-based functionalities (render, tick), extensible
@@ -22,7 +22,7 @@ Minimalistic set of framework functionalities:
 
 ## EXAMPLE SCREENSHOT
 
-![alt text](../blob/master/Clear2D/Clear2D-Example.png)
+![Example Clear2D app screenshot](../blob/master/Clear2D/Clear2D-Example.png)
 
 ## MAVEN [REPOSITORY](http://diana.ms.mff.cuni.cz:8081/artifactory)
 
