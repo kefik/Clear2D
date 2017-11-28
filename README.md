@@ -1,4 +1,4 @@
-# CLEAR
+# CLEAR2D
 Small 2D single-threaded bloat-free game library without ANY external dependencies; pure Java "based" on Swing (well, we just need a JFrame, JPanel and BufferedImage).
 Check how [quick is to setup a C2D frame](Clear2D/src/test/java/cz/cuni/amis/clear2d/tests/Test04_C2DFrame.java). Using [Maven](https://maven.apache.org/).
 The project is ideal for creating fast sprite-based visualizations of small, e.g., AI, projects and showcases.
