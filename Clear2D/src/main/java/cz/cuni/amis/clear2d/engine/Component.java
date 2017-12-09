@@ -12,9 +12,9 @@ public class Component implements INotifiable, IControllable {
 	public SceneElement owner;
 	
 	/**
-	 * Is component enabled?
+	 * Is component enabled? == Does it process events through {@link #notifyDo(Event, Object...)} ?
 	 * 
-	 * Do not alter directly, use {@link #enabled} and {@link #disable()} instead.
+	 * Do not alter directly, use {@link #setEnabled(boolean)} instead.
 	 */
 	public boolean enabled = true;
 	

@@ -19,6 +19,23 @@ public class C2DFrame extends JFrame {
 		this("C2DFrame");
 	}
 	
+	public C2DFrame(String title, C2DPanelStandalone panel) {
+		setTitle(title);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		if (panel == null) {
+			throw new RuntimeException("panel == null, invalid!");
+		}
+		
+		// TODO: determine correctly
+		int extraW = 16;
+		int extraH = 39;		
+		setSize(panel.getWidth()+extraW, panel.getHeight()+extraH);
+		
+		this.panel = panel;
+		add(panel);
+	}
+	
 	public C2DFrame(int panelWidth, int panelHeight) {
 		this("C2DFrame", panelWidth, panelHeight);
 	}

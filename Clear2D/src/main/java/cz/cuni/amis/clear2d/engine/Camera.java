@@ -8,13 +8,25 @@ import cz.cuni.amis.clear2d.engine.iface.IDrawable;
 import cz.cuni.amis.clear2d.engine.iface.IRender;
 import cz.cuni.amis.clear2d.engine.math.Vector2;
 
+/**
+ * Camera that has a fixed resolution; once instantiated, you cannot change it.
+ */
 public class Camera implements IRender {
 	
+	/**
+	 * Camera width (X-resolution).
+	 */
 	public final float camW;
 	
+	/**
+	 * Camera height (Y-resolution).
+	 */
 	public final float camH;
 	
-	public Pivot pivot = Pivot.MIDDLE;
+//	/**
+//	 * Camera pivot. TODO: implement
+//	 */
+//	public Pivot pivot = Pivot.MIDDLE;
 	
 	/**
 	 * TODO: investigate use of {@link AffineTransform} and {@link AffineTransformOp}, but that would probably be too slow to use.
@@ -26,7 +38,7 @@ public class Camera implements IRender {
 	 * 
 	 * Owned by this {@link Camera}, destroyed on {@link #die()}.
 	 */
-	public RenderTarget target;
+	public final RenderTarget target;
 	
 	/**
 	 * @param camW must remain int
@@ -38,27 +50,27 @@ public class Camera implements IRender {
 		target = new RenderTarget(camW, camH);
 	}
 	
-	public float getNormX(float camX) {
-		camX = pivot.getX(camX, camW);
-		camX /= camW;
-		
-		return camX;
-	}
-	
-	public float getNormY(float camY) {
-		camY = pivot.getY(camY, camH);
-		camY /= camH;
-		
-		return camY;
-	}
-	
-	public float getCenterCamX() {
-		return pivot.getX(0, camW);
-	}
-	
-	public float getCenterCamY() {
-		return pivot.getY(0, camW);
-	}
+//	public float getNormX(float camX) {
+//		camX = pivot.getX(camX, camW);
+//		camX /= camW;
+//		
+//		return camX;
+//	}
+//	
+//	public float getNormY(float camY) {
+//		camY = pivot.getY(camY, camH);
+//		camY /= camH;
+//		
+//		return camY;
+//	}
+//	
+//	public float getCenterCamX() {
+//		return pivot.getX(0, camW);
+//	}
+//	
+//	public float getCenterCamY() {
+//		return pivot.getY(0, camW);
+//	}
 	
 	// ==================
 	// CAMERA TRANSLATION
@@ -96,8 +108,8 @@ public class Camera implements IRender {
 	}
 		
 	private void drawInternal(float camX, float camY, Image img) {
-		camX = getNormX(camX);
-		camY = getNormX(camY);
+//		camX = getNormX(camX);
+//		camY = getNormX(camY);
 		
 		target.draw(camX * target.widthF, camY * target.heightF, img);
 	}
@@ -119,10 +131,11 @@ public class Camera implements IRender {
 	}
 
 	public void die() {
-		if (target != null) {
+		try {
 			target.die();
-			target = null;
-		}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 		
 }
