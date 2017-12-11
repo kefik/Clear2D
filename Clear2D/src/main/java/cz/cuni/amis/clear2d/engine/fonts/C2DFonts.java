@@ -79,9 +79,9 @@ public class C2DFonts {
 			int[] sizes = new int[] { 8, 10, 12 };
 			Color[] colors = new Color[] { Color.WHITE, Color.RED, Color.GREEN, Color.BLUE, Color.BLACK };
 			for (int size : sizes) {
-				resourcePrefix = "cz/cuni/amis/clear2d/engine/fonts/";
+				resourcePrefix = "cz/cuni/amis/clear2d/engine/fonts";
 				atlasName      = "Inconsolata-" + size + "-Atlas.xml";
-				String resource = resourcePrefix + atlasName;
+				String resource = resourcePrefix + "/" + atlasName;
 				for (Color color : colors) {
 					atlasStream = C2DFonts.class.getClassLoader().getResourceAsStream(resource);
 					fontAtlas = new FontAtlasResource(atlasStream, resourcePrefix, color);		
@@ -96,9 +96,9 @@ public class C2DFonts {
 			int[] sizes = new int[] { 8, 10, 12 };
 			Color[] colors = new Color[] { Color.WHITE, Color.RED, Color.GREEN, Color.BLUE, Color.BLACK };
 			for (int size : sizes) {
-				resourcePrefix = "cz/cuni/amis/clear2d/engine/fonts/";
+				resourcePrefix = "cz/cuni/amis/clear2d/engine/fonts";
 				atlasName      = "Inconsolata-" + size + "-bold-Atlas.xml";
-				String resource = resourcePrefix + atlasName;
+				String resource = resourcePrefix + "/" + atlasName;
 				for (Color color : colors) {
 					atlasStream = C2DFonts.class.getClassLoader().getResourceAsStream(resource);
 					fontAtlas = new FontAtlasResource(atlasStream, resourcePrefix, color);		
