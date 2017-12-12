@@ -12,6 +12,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import cz.cuni.amis.clear2d.Clear2D;
 import cz.cuni.amis.clear2d.engine.iface.IUpdatable;
@@ -60,6 +61,8 @@ public class C2DPanel extends JPanel implements IUpdatable  {
         }
         
 	}
+
+	private Object mutex = new Object();
 	
 	private BufferedImage image;
 	
@@ -68,6 +71,8 @@ public class C2DPanel extends JPanel implements IUpdatable  {
 	private Camera camera;
 	
 	private boolean updating = false;
+	
+	private boolean repainting = false;
 	
 	public C2DPanel(int width, int height, Color background) {
 		this(width, height, background, null);
@@ -104,65 +109,80 @@ public class C2DPanel extends JPanel implements IUpdatable  {
 	public void update() {
 		if (image == null || imageGraphics == null) return;
 		if (camera == null) return;		
-		RenderTarget source = camera.target;
+		final RenderTarget source = camera.target;
 		if (source == null) return;
 		
-		source.lock();
-		
-		try {
-		
-			// TODO: do this once and recalculate only on change...
+		synchronized (mutex) {
+			source.lock();
 			
-			int sourceW = source.width;
-			int sourceH = source.height;
+			try {
 			
-			int targetW = image.getWidth();
-			int targetH = image.getHeight();
-			
-			imageGraphics.setColor(getBackground());
-			imageGraphics.fillRect(0, 0, targetW, targetH);
-			
-//			if (targetW == sourceW && targetH == sourceH) {
-//				// DIRECT REWRITE
-//				source.image.copyData(image.getRaster());
-//				return;
-//			}
-			
-			// FILTER
-			
-			float ratioW = (float)targetW / (float)sourceW;
-			float ratioH = (float)targetH / (float)sourceH;
-			
-			float dX, dY;
-			
-			if (ratioW > ratioH) {
-				ratioW = ratioH;			
-				int sourceWbyRatio = (int)(sourceW * ratioW); 
-				dX = targetW / 2 - sourceWbyRatio / 2;
-				dY = 0;
-			} else {
-				ratioH = ratioW;
-				int sourceHbyRatio = (int)(sourceH * ratioH);
-				dX = 0;
-				dY = targetH / 2 - sourceHbyRatio / 2;			
+				// TODO: do this once and recalculate only on change...
+				
+				int sourceW = source.width;
+				int sourceH = source.height;
+				
+				int targetW = image.getWidth();
+				int targetH = image.getHeight();
+				
+				imageGraphics.setColor(getBackground());
+				imageGraphics.fillRect(0, 0, targetW, targetH);
+				
+	//			if (targetW == sourceW && targetH == sourceH) {
+	//				// DIRECT REWRITE
+	//				source.image.copyData(image.getRaster());
+	//				return;
+	//			}
+				
+				// FILTER
+				
+				float ratioW = (float)targetW / (float)sourceW;
+				float ratioH = (float)targetH / (float)sourceH;
+				
+				float dX, dY;
+				
+				if (ratioW > ratioH) {
+					ratioW = ratioH;			
+					int sourceWbyRatio = (int)(sourceW * ratioW); 
+					dX = targetW / 2 - sourceWbyRatio / 2;
+					dY = 0;
+				} else {
+					ratioH = ratioW;
+					int sourceHbyRatio = (int)(sourceH * ratioH);
+					dX = 0;
+					dY = targetH / 2 - sourceHbyRatio / 2;			
+				}
+				
+				AffineTransform transform = AffineTransform.getScaleInstance(ratioW, ratioH);		
+				transform.translate(dX / ratioW , dY / ratioH);
+				
+				AffineTransformOp transformOP = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+				
+				transformOP.filter(camera.target.image, image);
+			} finally {
+				source.unlock();
 			}
-			
-			AffineTransform transform = AffineTransform.getScaleInstance(ratioW, ratioH);		
-			transform.translate(dX / ratioW , dY / ratioH);
-			
-			AffineTransformOp transformOP = new AffineTransformOp(transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-			
-			transformOP.filter(camera.target.image, image);
-		} finally {
-			source.unlock();
 		}
 		
-		repaint();		
+		if (!repainting) {
+			repainting = true;
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					synchronized(mutex) {
+						repaint();
+						repainting = false;	
+					}
+				}
+			});
+		}
 	}
 	
 	@Override
 	public void paint(Graphics g) {
-		g.drawImage(image, 0, 0, null);
+		synchronized(mutex) {
+			g.drawImage(image, 0, 0, null);
+		}
 	}
 	
 	// ==================

@@ -55,8 +55,8 @@ public class TextureAtlasToEnum {
 	}
 	
 	public static void main(String[] args) {
-		File source = new File("d:/Workspaces/MFF/GACR/GIT-DD4J/DarkDungeon4J-Visualization/src/main/resources/cz/dd4j/ui/gui/16x16-Indoor/sprites.xml");
-		File target = new File("d:/Workspaces/MFF/GACR/GIT-DD4J/DarkDungeon4J-Visualization/src/main/java/TextureAtlasEnum.java");
+		File source = new File("d:/Workspaces/MFF/NAIL069-UI1/Minesweeper/GIT/Minesweeper4J/src/main/resources/cz/minesweeper4j/ui/atlas/sprites.xml");
+		File target = new File("d:/Workspaces/MFF/NAIL069-UI1/Minesweeper/GIT/Minesweeper4J/src/main/java/cz/minesweeper4j/ui/TextureAtlasEnum.java");
 		
 		TextureAtlasToEnum.transform(source, target);
 		

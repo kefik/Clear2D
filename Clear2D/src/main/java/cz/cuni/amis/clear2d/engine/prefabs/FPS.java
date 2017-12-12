@@ -8,6 +8,7 @@ import cz.cuni.amis.clear2d.engine.components.CText;
 import cz.cuni.amis.clear2d.engine.events.Event;
 import cz.cuni.amis.clear2d.engine.events.Events;
 import cz.cuni.amis.clear2d.engine.fonts.C2DFonts;
+import cz.cuni.amis.clear2d.engine.fonts.FontAtlas;
 import cz.cuni.amis.clear2d.engine.time.C2DTime;
 
 public class FPS extends SceneElement {
@@ -25,7 +26,11 @@ public class FPS extends SceneElement {
 	public float fpsWindowSecs = 2;
 	
 	public FPS() {
-		cText = new CText(this, C2DFonts.inconcolata_12px_blue, "FPS: 0");
+		this(C2DFonts.inconcolata_12px_blue);
+	}
+	
+	public FPS(FontAtlas font) {
+		cText = new CText(this, font, "FPS: 0");
 	}
 	
 	@Override
