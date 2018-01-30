@@ -90,7 +90,7 @@ public class RenderTarget implements IRender {
 	}
 
 	public void die() {
-		if (graphics == null) {
+		if (graphics != null) {
 			graphics.dispose();
 			graphics = null;
 		}
